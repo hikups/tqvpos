@@ -1,0 +1,173 @@
+/* Te Quiero Verde POS - Login Styles */
+/* File: assets/css/login.css */
+
+:root{
+  --sidebar: 220px;
+  --center-fixed: 600px;
+  --gap: 22px;
+
+  --bg:#101214; --panel:#1a1c1e;
+  --muted:#9aa0a6; --line:#2f3336; --white:#ffffff;
+
+  --p2:#e4cded; --p3:#c2dbe9; --p5:#f1c8d0; --p7:#d6ead1;
+
+  --topbarH: 48px;
+  --drawerW: 380px;
+  --slideMs: 340ms;
+
+  --keySize: 72px;              /* fixed cell size for equal spacing */
+  --keyGap: 18px;               /* equal horizontal & vertical gap */
+  --keyRadius: 6px;             /* match staff card radius */
+  --keyBorder: 1px solid rgba(255,255,255,.15); /* visually thin like cards */
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:var(--bg); color:var(--white);
+  font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;
+}
+
+.stage{min-height:100dvh; padding:20px}
+.app{
+  width: calc(var(--sidebar) + var(--center-fixed) + var(--gap));
+  margin:0 auto;
+  display:grid;
+  grid-template-columns: var(--sidebar) var(--center-fixed);
+  gap:var(--gap);
+  align-items:start;
+}
+
+/* Sidebar */
+.side{display:flex;flex-direction:column;gap:12px}
+.brand{display:flex;flex-direction:column;align-items:center}
+.brand img{width:88px;height:88px;object-fit:contain;border-radius:10px}
+.nav{display:flex;flex-direction:column;gap:4px;margin-top:4px}
+.nav a{color:var(--white);text-decoration:none;padding:10px 14px;border-radius:10px;font-weight:600}
+.nav a:hover{background:var(--panel)}
+.nav a.active{background:#2a2d2f}
+
+/* Center column */
+.center{display:flex;flex-direction:column;gap:14px}
+
+/* Clock centered */
+.topbar{
+  height:var(--topbarH);
+  display:flex; align-items:center; justify-content:center;
+  margin-top:4px;
+}
+.topbar .time{
+  color:#cfd3d7; font-size:14px; font-weight:600; letter-spacing:.2px;
+}
+
+/* Staff list */
+.staff-wrap{ width:360px; margin:0 auto 0; }
+.staff{display:flex;flex-direction:column;gap:14px}
+.staff-card{
+  display:flex;align-items:center;gap:14px;
+  background:transparent;
+  border:1px solid var(--line);
+  border-radius:6px;
+  padding:16px; min-height:66px;
+  cursor:pointer; transition:transform .12s ease, box-shadow .2s ease;
+}
+.staff-card:hover{ transform:translateY(-1px); box-shadow:0 6px 18px rgba(0,0,0,.25) }
+.staff-card.selected{ background:var(--p2); color:#111315; border-color:rgba(0,0,0,.18); }
+.avatar{
+  width:42px;height:42px;border-radius:50%;
+  background:var(--avc,#cdd7f8); color:#111315; font-weight:800;
+  display:grid;place-items:center;
+}
+.name{font-weight:600;font-size:16px}
+.sub{color:var(--muted);font-size:12px;margin-top:2px}
+
+/* Error message */
+.error-msg{
+  background: rgba(241, 200, 208, 0.2);
+  border: 1px solid var(--p5);
+  color: var(--p5);
+  padding: 8px 12px;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 14px;
+  margin: -8px 0 8px;
+}
+
+/* Drawer */
+.pin-scrim{
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.5);
+  opacity: 0; pointer-events: none;
+  transition: opacity var(--slideMs) ease;
+}
+.pin-scrim.show{opacity:1; pointer-events:auto;}
+
+.pin-wrap{
+  position: fixed; top:0; right:0;
+  width: min(100vw, var(--drawerW)); height:100dvh;
+  background: linear-gradient(180deg, #242729 0%, #202325 100%);
+  border:none; border-radius:0;
+  box-shadow: -20px 0 50px rgba(0,0,0,.45);
+  display:grid; grid-template-rows:auto 1fr;
+  transform:translateX(100%); transition: transform var(--slideMs) cubic-bezier(.2,.8,.2,1);
+  z-index:20;
+}
+.pin-wrap.visible{ transform:translateX(0); }
+
+.pin-top{ display:flex; align-items:center; justify-content:center; padding:18px 18px 6px; }
+.pin-title{ margin:0; font-size:13px; font-weight:600; letter-spacing:.3px; color:#cbd1d6; }
+
+.pin-body{ padding:8px 18px 22px; display:flex; flex-direction:column; gap:16px; }
+.who{display:flex; align-items:center; gap:10px; color:#cbd1d6; justify-content:center}
+.who .chip{padding:6px 10px;border:1px solid #3a3f41;border-radius:999px;background:#1c1f21;font-size:12px}
+
+.dots{ display:flex; gap:12px; justify-content:center; margin:2px 0 10px; }
+.dot{ width:10px; height:10px; border-radius:50%; margin:3px;background:#51565a }
+.dot.active{ background:#ffffff }
+
+/* Keypad: fixed-size cells + named areas = perfect spacing & fixed back position */
+.keypad{
+  margin: 8px auto 0;
+  display:grid;
+  grid-template-columns: repeat(3, var(--keySize));
+  grid-template-rows: repeat(4, var(--keySize));
+  column-gap: var(--keyGap);
+  row-gap: var(--keyGap);
+  grid-template-areas:
+    "one   two   three"
+    "four  five  six"
+    "seven eight nine"
+    "spc   zero  back";
+  justify-content:center;  /* centers the whole grid block */
+}
+
+.key{
+  width: var(--keySize); height: var(--keySize);
+  background:none; border: var(--keyBorder); border-radius: var(--keyRadius);
+  color:#fff; font-size:24px; display:flex; align-items:center; justify-content:center;
+  cursor:pointer; user-select:none; transition: opacity .12s ease, transform .06s ease, background .12s ease;
+}
+.key:active{ opacity:.85; background:rgba(255,255,255,.06); }
+
+/* Back arrow: no border; always right of 0 */
+.back-key{
+  width: var(--keySize); height: var(--keySize);
+  background:none; border:none; color:#fff; font-size:26px;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; user-select:none; transition: opacity .12s ease, transform .06s ease;
+}
+.back-key:active{ opacity:.7; transform:scale(.98); }
+
+/* Grid area mapping */
+.k1{grid-area:one} .k2{grid-area:two} .k3{grid-area:three}
+.k4{grid-area:four} .k5{grid-area:five} .k6{grid-area:six}
+.k7{grid-area:seven} .k8{grid-area:eight} .k9{grid-area:nine}
+.k0{grid-area:zero} .ksp{grid-area:spc} .kback{grid-area:back}
+
+@media (max-width:760px){
+  .app{width:auto;grid-template-columns:1fr}
+  .staff-wrap{width:100%;max-width:360px}
+  .pin-wrap{ width:100vw; }
+}
